@@ -15,7 +15,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        'App\Models\Post' => 'App\Policies\PostPolicy',
     ];
 
     /**
@@ -27,20 +27,20 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('cansee-all-posts', function (User $user) {
-            return $user->role == 'admin';
-        });
+        // Gate::define('cansee-all-posts', function (User $user) {
+        //     return $user->role == 'admin';
+        // });
 
-        Gate::define('create-post', function (User $user, Post $post) {
-            return $user->role == 'admin';
-        });
+        // Gate::define('create-post', function (User $user, Post $post) {
+        //     return $user->role == 'admin';
+        // });
 
-        Gate::define('update-post', function (User $user, Post $post) {
-            return $user->id == $post->user_id || $user->role == 'admin';
-        });
+        // Gate::define('update-post', function (User $user, Post $post) {
+        //     return $user->id == $post->user_id || $user->role == 'admin';
+        // });
 
-        Gate::define('destroy-post', function (User $user, Post $post) {
-            return $user->id == $post->user_id || $user->role == 'admin';
-        });
+        // Gate::define('destroy-post', function (User $user, Post $post) {
+        //     return $user->id == $post->user_id || $user->role == 'admin';
+        // });
     }
 }
