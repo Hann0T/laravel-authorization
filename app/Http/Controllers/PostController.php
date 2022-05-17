@@ -13,9 +13,13 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        if (!Gate::allows('cansee-all-posts')) {
+        // if (!Gate::allows('cansee-all-posts')) {
+        //     abort(403);
+        // }
+
+        if ($request->user()->cannot('viewAny', Post::class)) {
             abort(403);
         }
 
@@ -31,7 +35,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts-create');
     }
 
     /**
@@ -42,7 +46,9 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->user()->cannot('create', Post::class)) {
+            abort(403);
+        }
     }
 
     /**
@@ -62,11 +68,12 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit(Request $request, Post $post)
     {
-        if (!Gate::allows('update-post', $post)) {
-            abort(403);
-        }
+        // if (!Gate::allows('update-post', $post)) {
+        //     abort(403);
+        // }
+
         return view('posts-update', compact('post'));
     }
 
@@ -79,6 +86,12 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $this->authorize('update', $post);
+
+        // if ($request->user()->cannot('update', $post)) {
+        //     abort(403);
+        // }
+
         Post::where('id', $post->id)->update([
             'title' => $request->post()['title'],
             'slug' => $request->post()['slug'],
@@ -95,9 +108,13 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Request $request, Post $post)
     {
-        if (!Gate::allows('destroy-post', $post)) {
+        // if (!Gate::allows('destroy-post', $post)) {
+        //     abort(403);
+        // }
+
+        if ($request->user()->cannot('delete', $post)) {
             abort(403);
         }
 

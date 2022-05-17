@@ -22,6 +22,17 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
+        \App\Models\User::factory()->create([
+            'name' => 'test',
+            'email' => 'test@test.com',
+            'password' => Hash::make(123),
+            'role' => 'author',
+        ]);
+
+        \App\Models\Post::factory(4)->create([
+            'user_id' => 2,
+        ]);
+
         \App\Models\User::factory(5)
             ->create()
             ->each(function ($user) {
