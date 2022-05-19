@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     /**
+     * Shows the login form
+     */
+    public function index()
+    {
+        return view('login');
+    }
+
+    /**
      * Handle an authentication attempt.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -31,10 +39,5 @@ class LoginController extends Controller
                 'email' => 'The provided credentials do not match our records.',
             ])
             ->onlyInput('email');
-    }
-
-    public function index()
-    {
-        return view('login');
     }
 }
